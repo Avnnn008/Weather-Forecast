@@ -10,36 +10,21 @@ import s from "./App.module.css";
 function App() {
   const bgRef = useRef(null);
   const [weatherData, setWeatherData] = useState({});
-  const [forecastData, setForecastData] = useState({});
+  const [forecastData, setForecastData] = useState({})
   const [loading, setLoading] = useState(false);
-  const [hint, setHint] = useState("");
+  const [hint, setHint] = useState(HINT_MESSAGES.empty);
 
   useEffect(() => {
-    if (!Object.keys(weatherData).length) getUserLocation();
+    if (!Object.keys(weatherData).length) getWeatherData();
   }, []);
 
-  function getUserLocation() {
-    if (navigator.geolocation) {
-      setHint("");
-      setLoading(true);
-      navigator.geolocation.getCurrentPosition(
-        (position) =>
-          getWeatherData(position.coords.latitude, position.coords.longitude),
-        (error) => {
-          setLoading(false)
-          setHint("Не удалось получить доступ к геолокации")}
-      );
-    } else {
-      setHint(
-        "Для отображения погоды в Вашем регионе необходим доступ к геолокации!"
-      );
-    }
-  }
+  async function getWeatherData() {
+    setHint(HINT_MESSAGES.empty);
+    setLoading(true)
 
-  async function getWeatherData(latitude, longitude) {
     try {
-      const response = await fetch(
-        `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${latitude},${longitude}&lang=ru&days=3`
+      const response =  await fetch(
+        `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=auto:ip&lang=ru&days=3`
       );
       const data = await response.json();
       setWeatherData({
@@ -53,12 +38,12 @@ function App() {
         wind: Math.round(data.current.wind_kph / 3.6),
         pressure: Math.round(data.current.pressure_mb * 0.75),
       });
-      setForecastData(data.forecast.forecastday);
-
+      setForecastData(data.forecast.forecastday)
+      
       setLoading(false);
     } catch (e) {
       setLoading(false);
-      setHint(/* HINT_MESSAGES.error */ e.message);
+      setHint(/* HINT_MESSAGES.error */e.message);
     }
   }
 
@@ -73,18 +58,19 @@ function App() {
     if (weatherData.temp_c >= 28) array = [...array, ...QUOTES.hot];
     if (weatherData.condition) {
       if (/дождь|ливень|ливни|морось/i.test(weatherData.condition.text))
-        array = [...array, ...QUOTES.rain];
-      if (/гроз/i.test(weatherData.condition.text))
-        array = [...array, ...QUOTES.storm];
-      if (/снег/i.test(weatherData.condition.text))
-        array = [...array, ...QUOTES.snow];
-      if (/туман/i.test(weatherData.condition.text))
-        array = [...array, ...QUOTES.fog];
-      if (/облач/i.test(weatherData.condition.text))
-        array = [...array, ...QUOTES.clouds];
-      if (/пасмурно/i.test(weatherData.condition.text))
-        array = [...array, ...QUOTES.overcast];
+      array = [...array, ...QUOTES.rain];
+    if (/гроз/i.test(weatherData.condition.text))
+      array = [...array, ...QUOTES.storm];
+    if (/снег/i.test(weatherData.condition.text))
+      array = [...array, ...QUOTES.snow];
+    if (/туман/i.test(weatherData.condition.text))
+      array = [...array, ...QUOTES.fog];
+    if (/облач/i.test(weatherData.condition.text))
+      array = [...array, ...QUOTES.clouds];
+    if (/пасмурно/i.test(weatherData.condition.text))
+      array = [...array, ...QUOTES.overcast];
     }
+    
 
     return array;
   };
@@ -102,12 +88,10 @@ function App() {
         {!!Object.keys(weatherData).length && (
           <Weather weatherData={weatherData} />
         )}
-        {!!Object.keys(weatherData).length && (
+        {!!Object.keys(weatherData).length  && (
           <Quote quotesArray={getQuotesArray()} />
         )}
-        {!!Object.keys(forecastData).length && (
-          <Forecast forecastData={forecastData} />
-        )}
+        {!!Object.keys(forecastData).length && <Forecast forecastData={forecastData}/>}
       </div>
     </div>
   );
