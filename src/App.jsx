@@ -43,7 +43,7 @@ function App() {
       setLoading(false);
     } catch (e) {
       setLoading(false);
-      setHint(HINT_MESSAGES.error);
+      setHint(/* HINT_MESSAGES.error */e.message);
     }
   }
 
