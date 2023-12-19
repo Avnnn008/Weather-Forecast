@@ -1,0 +1,10 @@
+.background {
+  position: absolute;
+  width: 110%;
+  height: 100%;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: all 0.25s ease;
+  z-index: -1;
+}
