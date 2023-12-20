@@ -50,7 +50,7 @@ function App() {
     } catch (e) {
       console.log(e)
       setLoading(false);
-      setHint(`Произошла ошибка при получении данных: ${e.message}`);
+      setHint(`Произошла ошибка при получении данных: ${e.message} ${e.code}`);
     }
   }
 
