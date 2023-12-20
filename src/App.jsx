@@ -50,7 +50,7 @@ function App() {
     } catch (e) {
       console.log(e)
       setLoading(false);
-      setHint(`Произошла ошибка при получении данных: ${e.message} ${e.code}`);
+      setHint(`Произошла ошибка при получении данных: ${Object.keys(e).map(el=>e[el])}`);
     }
   }
 
