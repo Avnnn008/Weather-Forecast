@@ -23,8 +23,10 @@ function App() {
     setLoading(true)
 
     try {
+      const ipResponse = await fetch('https://ipwho.is')
+      const ipData = await ipResponse.json()
       const response =  await fetch(
-        `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=auto:ip&lang=ru&days=3`
+        `https://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=${ipData.latitude},${ipData.longitude}&lang=ru&days=3`
       );
       
       const data = await response.json();
