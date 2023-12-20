@@ -26,7 +26,13 @@ function App() {
       const response =  await fetch(
         `http://api.weatherapi.com/v1/forecast.json?key=${apiKey}&q=auto:ip&lang=ru&days=3`
       );
+      
       const data = await response.json();
+      if (data.error) {
+        setHint(`Ошибка при получении данных. Код ошибки: ${data.error.code}`)
+        setLoading(false)
+        return
+      }
       setWeatherData({
         city: data.location.name,
         is_day: data.current.is_day,
@@ -42,8 +48,9 @@ function App() {
       
       setLoading(false);
     } catch (e) {
+      console.log(e)
       setLoading(false);
-      setHint(/* HINT_MESSAGES.error */e.message);
+      setHint(`Произошла ошибка при получении данных: ${e.message}`);
     }
   }
 
