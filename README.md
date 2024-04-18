@@ -1,8 +1,9 @@
-# React + Vite
+Небольшое SPA прогноза погоды.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+При запуске приложения автоматически определяется геолокация пользователя на основе ip-адреса с помощью сервиса IPWHOIS.IO.
+Данные о погоде в текущей геопозиции получаются путем обращения к Free Weather API.
 
-Currently, two official plugins are available:
+На странице отображаются данные о погоде в текущем местоположении пользователя в настоящий момент: погодные условия, температура и ощущаемая температура (могут быть представлены как в градусах по Цельсию, так и в градусах по Фаренгейту), скорость ветра и атмосферное давление.
+Доступен прогноз погоды с интервалом в 3 часа на ближайшие сутки, а также прогноз погоды на текущую дату и на 2 дня вперед (в платной версии Free Weather API можно получать более длительный прогноз).
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Каждые 10 секунд меняется цитата о погоде. Часть цитат соответствуют текущим погодным условиям.
